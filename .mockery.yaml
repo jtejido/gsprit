@@ -1,0 +1,15 @@
+log-level:              "info"
+inpackage:              true
+with-expecter:          true
+unroll-variadic:        false
+packages:
+    gsprit/problem:
+        config:
+            dir:       "problem/mock"
+            outpkg:    "mock"
+            inpackage: false
+        interfaces:
+            Pickup:
+            Delivery:
+            Service:
+            Job:
