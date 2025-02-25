@@ -66,7 +66,24 @@ func (v *VehicleRoutingProblemSolution) UnassignedJobs() []problem.Job {
 	return v.unassignedJobs
 }
 
+// getUnassignedJobs returns jobs that are not assigned to any vehicle route
+func (v *VehicleRoutingProblemSolution) SetUnassignedJobs(jobs []problem.Job) {
+	v.unassignedJobs = jobs
+}
+
 // String returns a string representation of the solution
 func (v *VehicleRoutingProblemSolution) String() string {
 	return fmt.Sprintf("[cost=%.2f][routes=%d][unassigned=%d]", v.cost, len(v.routes), len(v.unassignedJobs))
+}
+
+func BestOf(solutions []*VehicleRoutingProblemSolution) *VehicleRoutingProblemSolution {
+	var best *VehicleRoutingProblemSolution
+	for _, s := range solutions {
+		if best == nil {
+			best = s
+		} else if s.Cost() < best.Cost() {
+			best = s
+		}
+	}
+	return best
 }

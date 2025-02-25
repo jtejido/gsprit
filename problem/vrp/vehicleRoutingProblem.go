@@ -9,7 +9,6 @@ import (
 	"gsprit/util"
 	"log"
 	"sort"
-	"sync"
 )
 
 type FleetSize string
@@ -51,7 +50,6 @@ func (f *defaultJobActivityFactory) CreateActivities(job problem.Job) []problem.
 }
 
 type Builder struct {
-	sync.Mutex
 	transportCosts                                                       cost.VehicleRoutingTransportCosts
 	activityCosts                                                        cost.VehicleRoutingActivityCosts
 	jobs                                                                 map[string]problem.Job
@@ -427,7 +425,6 @@ func (b *Builder) convertLocationMapToSlice() []*problem.Location {
 }
 
 type VehicleRoutingProblem struct {
-	sync.Mutex
 	transportCosts       cost.VehicleRoutingTransportCosts
 	activityCosts        cost.VehicleRoutingActivityCosts
 	jobs                 map[string]problem.Job
@@ -516,8 +513,6 @@ func (vrp *VehicleRoutingProblem) JobActivityFactory() func(problem.Job) []probl
 }
 
 func (vrp *VehicleRoutingProblem) copyAndGetActivities(job problem.Job) []problem.AbstractActivity {
-	vrp.Lock()
-	defer vrp.Unlock()
 
 	copiedActivities := []problem.AbstractActivity{}
 	activities, exists := vrp.activityMap[job]
